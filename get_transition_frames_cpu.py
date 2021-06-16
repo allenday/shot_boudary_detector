@@ -41,9 +41,9 @@ frames = [frame for frame in vid.iter_frames()]
 f = open(text_file, 'w+')
 
 for j, frame in enumerate(frames):
-        frame_path = frames_path + 'frame_' + str(j+1) + '.png'
+        frame_path = frames_path + 'frame_' + str(j+1) + '.jpg'
         im = Image.fromarray(frame)
-        im.save(frame_path)            
+        im.save(frame_path, 'JPEG')            
         f.write(frame_path + '\n')    
 
 print('frame decomposition complete !!! ')
