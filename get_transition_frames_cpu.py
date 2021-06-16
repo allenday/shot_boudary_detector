@@ -38,17 +38,18 @@ vid = VideoFileClip(video)
 vid = six_four_crop_video(vid)
 
 n_frames = int(vid.fps * vid.duration)
+print('frames: ' + str(n_frames))
 
 f = open(text_file, 'w+')
 
 with Bar('extracting frames', max=n_frames) as bar:
         for j, frame in enumerate(vid.iter_frames()):
-
                 frame_path = frames_path + 'frame_' + str(j+1) + '.jpg'
                 im = Image.fromarray(frame)
                 im.save(frame_path, 'JPEG')            
                 f.write(frame_path + '\n')    
                 bar.next()
+        bar.finish()
 
 
 print('frame decomposition complete !!! ')
