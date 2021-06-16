@@ -40,7 +40,7 @@ f = open(text_file, 'w+')
 
 for j, frame in enumerate(vid.iter_frames()):
         if j % 1000 == 0:
-                print('processed frames: ' + j)
+                print('processed frames: ' + str(j))
         frame_path = frames_path + 'frame_' + str(j+1) + '.jpg'
         im = Image.fromarray(frame)
         im.save(frame_path, 'JPEG')            
