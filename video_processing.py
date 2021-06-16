@@ -15,6 +15,10 @@ def six_four_crop_video(newVideo):
     factored_dimensions = []
     for i in range(2):
         factored_dimensions.append(round(dimensions[i]/factor))
+
+    x64_resize = newVideo.resize((64,64))
+    return x64_resize
+
     first_stage_crop = newVideo.resize((factored_dimensions[0], factored_dimensions[1]))
     larger_dimension = max(factored_dimensions)
     midpoint = round(larger_dimension/2)
