@@ -23,13 +23,14 @@ from PIL import Image
 
 video = sys.argv[1]
 pred_text_file_name = sys.argv[2]
+workdir = sys.argv[3]
 
-text_file = 'frames.txt'
+text_file = workdir + '/frames.txt'
 
 print('decomposing video to frames this may take a while  for large videos :) .....')
-frames_path = 'video_frames/'
-os.makedirs('video_frames/', exist_ok=True)
-os.makedirs('predictions/', exist_ok=True)
+frames_path = workdir + '/video_frames/'
+os.makedirs(workdir + '/video_frames/', exist_ok=True)
+os.makedirs(workdir + '/predictions/', exist_ok=True)
 
 
 vid = VideoFileClip(video)
@@ -47,19 +48,17 @@ for j, frame in enumerate(frames):
 
 print('frame decomposition complete !!! ')
 
-
 #load model
 model = TransitionCNN()
 model.load_state_dict(torch.load('./models/shot_boundary_detector_even_distrib.pt', map_location='cpu'))
 
-
-prediction_text_file = 'predictions/' + pred_text_file_name 
+prediction_text_file = workdir + '/predictions/' + pred_text_file_name 
 
 pred_file = open(prediction_text_file, 'w+')
 
 print('computing predictions for video', video, '...................' )
 
-test_video = TestVideo('frames.txt', sample_size=100, overlap=9)
+test_video = TestVideo(workdir + '/frames.txt', sample_size=100, overlap=9)
 test_loader = DataLoader(test_video, batch_size=1, num_workers=3)
 
 video_indexes = []
@@ -83,14 +82,3 @@ pred_file.close()
 
 print('Predictions complete !!!')
 print('Frames that are part of shot boundaries are listed in file the directory path predictions/' + pred_text_file_name)
-
-
-
-
-
-
-
-
-
-
-
