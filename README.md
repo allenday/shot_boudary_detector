@@ -1,4 +1,4 @@
-# shot_boudary_detector
+# shot_boundary_detector
 Shot Boundary Detector based on convolutional neural network created by Gygli --> https://arxiv.org/pdf/1705.08214.pdf
 
 To use the shot boundary detector the following python libraries are reuqired
