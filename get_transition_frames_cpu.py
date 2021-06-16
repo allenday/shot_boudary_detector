@@ -15,6 +15,7 @@ from TestVideo import TestVideo, return_start_and_end
 from moviepy.editor import VideoFileClip
 from video_processing import six_four_crop_video
 from PIL import Image
+from progress.bar import Bar
 
 # command line arguments --> file name, video_file_name, gpu or cpu 
 
@@ -36,17 +37,20 @@ os.makedirs(workdir + '/predictions/', exist_ok=True)
 vid = VideoFileClip(video)
 vid = six_four_crop_video(vid)
 
-n_frames = sum(1 for x in vid.iter_frames())
+n_frames = int(vid.fps * vid.duration)
 
 f = open(text_file, 'w+')
 
-for j, frame in enumerate(vid.iter_frames()):
-        if j % 1000 == 0:
-                print('processed frames: ' + str(j) + '/' + str(n_frames))
-        frame_path = frames_path + 'frame_' + str(j+1) + '.jpg'
-        im = Image.fromarray(frame)
-        im.save(frame_path, 'JPEG')            
-        f.write(frame_path + '\n')    
+with Bar('extracting frames', max=n_frames) as bar:
+        for j, frame in enumerate(vid.iter_frames()):
+
+                if j % 1000 == 0:
+                        print('processed frames: ' + str(j) + '/' + str(n_frames))
+                frame_path = frames_path + 'frame_' + str(j+1) + '.jpg'
+                im = Image.fromarray(frame)
+                im.save(frame_path, 'JPEG')            
+                f.write(frame_path + '\n')    
+        bar.next()
 
 print('frame decomposition complete !!! ')
 
