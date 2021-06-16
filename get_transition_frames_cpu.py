@@ -36,11 +36,11 @@ os.makedirs(workdir + '/predictions/', exist_ok=True)
 vid = VideoFileClip(video)
 vid = six_four_crop_video(vid)
 
-frames = [frame for frame in vid.iter_frames()]
-
 f = open(text_file, 'w+')
 
-for j, frame in enumerate(frames):
+for j, frame in enumerate(vid.iter_frames()):
+        if j % 1000 == 0:
+                print('processed frames: ' + j)
         frame_path = frames_path + 'frame_' + str(j+1) + '.jpg'
         im = Image.fromarray(frame)
         im.save(frame_path, 'JPEG')            
