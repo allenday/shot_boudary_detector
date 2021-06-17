@@ -46,7 +46,7 @@ COPY ./entrypoint.sh /app/entrypoint.sh
 
 RUN pip install matplotlib pandas moviepy progress
 
-RUN echo 2
+RUN echo 4
 RUN git clone https://github.com/allenday/shot_boudary_detector.git 
 WORKDIR /app/shot_boudary_detector
 

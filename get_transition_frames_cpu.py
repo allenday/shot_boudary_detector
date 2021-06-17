@@ -47,7 +47,7 @@ for j, frame in enumerate(vid.iter_frames()):
         print('processed: ' + str(j))
     frame_path = frames_path + 'frame_' + str(j+1) + '.jpg'
     im = Image.fromarray(frame)
-    im.save(frame_path, 'JPEG')            
+    im.save(frame_path, quality=100, subsampling=0)
     f.write(frame_path + '\n')    
 
 
@@ -64,7 +64,7 @@ pred_file = open(prediction_text_file, 'w+')
 print('computing predictions for video', video, '...................' )
 
 test_video = TestVideo(workdir + '/frames.txt', sample_size=100, overlap=9)
-test_loader = DataLoader(test_video, batch_size=1, num_workers=3)
+test_loader = DataLoader(test_video, batch_size=1, num_workers=0)
 
 video_indexes = []
 vals = np.arange(test_video.get_line_number())
@@ -82,7 +82,7 @@ for indx, batch in enumerate(test_loader):
         for i, prediction in enumerate(prediction_set):
             if prediction[0][0] == 0:
                 frame_index = video_indexes[indx][i+5]
-                pred_file.write(str(frame_index) + '\n')
+                pred_file.write(str(frame_index) + '\t' + str(frame_index * vid.fps))
 
 pred_file.close()
 
