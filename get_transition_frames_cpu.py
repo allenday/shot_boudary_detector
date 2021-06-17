@@ -47,7 +47,7 @@ for j, frame in enumerate(vid.iter_frames()):
         print('processed: ' + str(j))
     frame_path = frames_path + 'frame_' + str(j+1) + '.jpg'
     im = Image.fromarray(frame)
-    im.save(frame_path, quality=100, subsampling=0)
+    im.save(frame_path, quality=95, subsampling=0)
     f.write(frame_path + '\n')    
 
 
