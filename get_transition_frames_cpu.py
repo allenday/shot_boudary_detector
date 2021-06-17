@@ -47,7 +47,7 @@ for j, frame in enumerate(vid.iter_frames()):
         print('processed: ' + str(j))
     frame_path = frames_path + 'frame_' + str(j+1) + '.jpg'
     im = Image.fromarray(frame)
-    im.save(frame_path, quality=95, subsampling=0)
+    im.save(frame_path, quality=95, subsampling=1)
     f.write(frame_path + '\n')    
 
 
@@ -82,7 +82,7 @@ for indx, batch in enumerate(test_loader):
         for i, prediction in enumerate(prediction_set):
             if prediction[0][0] == 0:
                 frame_index = video_indexes[indx][i+5]
-                pred_file.write(str(frame_index) + '\t' + str(frame_index * vid.fps))
+                pred_file.write(str(frame_index) + '\t' + str(frame_index * vid.fps) + '\n')
 
 pred_file.close()
 
