@@ -42,13 +42,13 @@ print('frames: ' + str(n_frames))
 
 #f = open(text_file, 'w+')
 
-#for j, frame in enumerate(vid.iter_frames()):
-#    if j % 1000 == 0:
-#        print('processed: ' + str(j))
-#    frame_path = frames_path + 'frame_' + str(j+1) + '.jpg'
-#    im = Image.fromarray(frame)
-#    im.save(frame_path, quality=95, subsampling=1)
-#    f.write(frame_path + '\n')    
+for j, frame in enumerate(vid.iter_frames()):
+    if j % 1000 == 0:
+        print('processed: ' + str(j))
+    frame_path = frames_path + 'frame_' + str(j+1) + '.jpg'
+    im = Image.fromarray(frame)
+    im.save(frame_path, quality=95, subsampling=1)
+    f.write(frame_path + '\n')    
 
 
 print('frame decomposition complete !!! ')
@@ -80,13 +80,9 @@ for indx, batch in enumerate(test_loader):
     predictions = predictions.argmax(dim=1).cpu().detach().numpy()
     for idx, prediction_set in enumerate(predictions):
         for i, prediction in enumerate(prediction_set):
-            print(prediction[0][0])
-            print(str(prediction))
-            print("")
-#            if prediction[0][0] == 0:
-            if prediction[0][0] < 0.1:
+            if prediction[0][0] == 0:
                 frame_index = video_indexes[indx][i+5]
-                pred_file.write(str(frame_index) + '\t' + str(frame_index / vid.fps) + '\t' + str(frame_index) + '\t' + str(prediction[0][0]) + '\n')
+                pred_file.write(str(frame_index) + '\t' + str(frame_index / vid.fps) + '\t' + str(frame_index) + '\n')
 
 pred_file.close()
 
