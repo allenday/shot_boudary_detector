@@ -80,9 +80,10 @@ for indx, batch in enumerate(test_loader):
     predictions = predictions.argmax(dim=1).cpu().detach().numpy()
     for idx, prediction_set in enumerate(predictions):
         for i, prediction in enumerate(prediction_set):
-            if prediction[0][0] == 0:
+#            if prediction[0][0] == 0:
+            if prediction[0][0] < 0.1:
                 frame_index = video_indexes[indx][i+5]
-                pred_file.write(str(frame_index) + '\t' + str(frame_index / vid.fps) + '\n')
+                pred_file.write(str(frame_index) + '\t' + str(frame_index / vid.fps) + '\t' + str(frame_index) + '\t' + str(prediction[0][0]) + '\n')
 
 pred_file.close()
 
