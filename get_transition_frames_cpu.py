@@ -77,13 +77,16 @@ for indx, batch in enumerate(test_loader):
     predictions = model(batch)
     p2 = predictions.cpu().detach().numpy()[0][0].flatten()
     p3 = predictions.cpu().detach().numpy()[0][1].flatten()
-    p3m = np.amin(p3)
+    p2min = str(np.amin(p2))
+    p2max = str(np.amax(p2))
+    p3min = str(np.amin(p3))
+    p3max = str(np.amax(p3))
     predictions = predictions.argmax(dim=1).cpu().detach().numpy()
     for idx, prediction_set in enumerate(predictions):
         for i, prediction in enumerate(prediction_set):
             frame_index = video_indexes[indx][i+5]
 #            print(str(frame_index) + '\t' + str(frame_index / vid.fps) + '\t' + str(frame_index) + '\t' + str(",".join(np.char.mod('%f', p2))) + '\n')
-            pred_file.write(str(frame_index) + '\t' + str(prediction[0][0]) + '\t' + str(p3m) + '\t' + str(frame_index / vid.fps) + '\t' + str(frame_index) + '\t' + str(",".join(np.char.mod('%f', p2))) + '\t' + str(",".join(np.char.mod('%f', p3))) + '\n')
+            pred_file.write(str(frame_index) + '\t' + str(prediction[0][0]) + '\t' + str(frame_index / vid.fps) + '\t' + p2min + '\t' + p2max + '\t' + p3min + '\t' + p3max + '\n')
 #            if prediction[0][0] == 0:
 #                pred_file.write(str(frame_index) + '\t' + str(frame_index / vid.fps) + '\t' + str(frame_index) + '\n')
 
