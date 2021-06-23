@@ -48,7 +48,7 @@ print('frames: ' + str(n_frames))
 #    im = Image.fromarray(frame)
 #    im.save(frame_path, quality=95, subsampling=1)
 #    f.write(frame_path + '\n')    
-#print('frame decomposition complete !!! ')
+print('frame decomposition complete !!! ')
 
 #load model
 model = TransitionCNN()
@@ -72,9 +72,11 @@ for val in range(length):
     video_indexes.append(vals[s:e])
 
 #torch.Size([1, 2, 91, 1, 1])
+
 for indx, batch in enumerate(test_loader):
     batch = batch.type('torch.FloatTensor')
     predictions = model(batch)
+    p0 = predictions
     p2 = predictions.cpu().detach().numpy()[0][0].flatten()
     p3 = predictions.cpu().detach().numpy()[0][1].flatten()
     p2min = str(np.amin(p2))
@@ -82,12 +84,16 @@ for indx, batch in enumerate(test_loader):
     p3min = str(np.amin(p3))
     p3max = str(np.amax(p3))
     predictions = predictions.argmax(dim=1).cpu().detach().numpy()
+#    print(predictions)
     for idx, prediction_set in enumerate(predictions):
         for i, prediction in enumerate(prediction_set):
             frame_index = video_indexes[indx][i+5]
 #            print(str(frame_index) + '\t' + str(frame_index / vid.fps) + '\t' + str(frame_index) + '\t' + str(",".join(np.char.mod('%f', p2))) + '\n')
             pred_file.write(str(frame_index) + '\t' + str(prediction[0][0]) + '\t' + str(frame_index / vid.fps) + '\t' + p2min + '\t' + p2max + '\t' + p3min + '\t' + p3max + '\n')
-#            if prediction[0][0] == 0:
+            if prediction[0][0] == 0:
+                print(str(frame_index) + '\t0\t' + ",".join(np.char.mod('%f', p0.cpu().detach().numpy()[0][0].flatten())) + '\n')
+                print(str(frame_index) + '\t1\t' + ",".join(np.char.mod('%f', p0.cpu().detach().numpy()[0][1].flatten())) + '\n')
+
 #                pred_file.write(str(frame_index) + '\t' + str(frame_index / vid.fps) + '\t' + str(frame_index) + '\n')
 
 pred_file.close()
