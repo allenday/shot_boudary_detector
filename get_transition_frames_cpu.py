@@ -76,12 +76,13 @@ for indx, batch in enumerate(test_loader):
     batch = batch.type('torch.FloatTensor')
     predictions = model(batch)
     p2 = predictions.cpu().detach().numpy()[0][0].flatten()
+    p3 = predictions.cpu().detach().numpy()[0][1].flatten()
     predictions = predictions.argmax(dim=1).cpu().detach().numpy()
     for idx, prediction_set in enumerate(predictions):
         for i, prediction in enumerate(prediction_set):
             frame_index = video_indexes[indx][i+5]
 #            print(str(frame_index) + '\t' + str(frame_index / vid.fps) + '\t' + str(frame_index) + '\t' + str(",".join(np.char.mod('%f', p2))) + '\n')
-            pred_file.write(str(frame_index) + '\t' + str(prediction[0][0]) + '\t' + str(frame_index / vid.fps) + '\t' + str(frame_index) + '\t' + str(",".join(np.char.mod('%f', p2))) + '\n')
+            pred_file.write(str(frame_index) + '\t' + str(prediction[0][0]) + '\t' + str(frame_index / vid.fps) + '\t' + str(frame_index) + '\t' + str(",".join(np.char.mod('%f', p2))) + '\t' + str(",".join(np.char.mod('%f', p3))) + '\n')
 #            if prediction[0][0] == 0:
 #                pred_file.write(str(frame_index) + '\t' + str(frame_index / vid.fps) + '\t' + str(frame_index) + '\n')
 
