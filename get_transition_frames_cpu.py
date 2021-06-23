@@ -41,17 +41,14 @@ n_frames = int(vid.fps * vid.duration)
 print('frames: ' + str(n_frames))
 
 #f = open(text_file, 'w+')
-
-for j, frame in enumerate(vid.iter_frames()):
-    if j % 1000 == 0:
-        print('processed: ' + str(j))
-    frame_path = frames_path + 'frame_' + str(j+1) + '.jpg'
-    im = Image.fromarray(frame)
-    im.save(frame_path, quality=95, subsampling=1)
-    f.write(frame_path + '\n')    
-
-
-print('frame decomposition complete !!! ')
+#for j, frame in enumerate(vid.iter_frames()):
+#    if j % 1000 == 0:
+#        print('processed: ' + str(j))
+#    frame_path = frames_path + 'frame_' + str(j+1) + '.jpg'
+#    im = Image.fromarray(frame)
+#    im.save(frame_path, quality=95, subsampling=1)
+#    f.write(frame_path + '\n')    
+#print('frame decomposition complete !!! ')
 
 #load model
 model = TransitionCNN()
@@ -77,6 +74,7 @@ for val in range(length):
 for indx, batch in enumerate(test_loader):
     batch = batch.type('torch.FloatTensor')
     predictions = model(batch)
+    print(predictions.cpu().detach().numpy)
     predictions = predictions.argmax(dim=1).cpu().detach().numpy()
     for idx, prediction_set in enumerate(predictions):
         for i, prediction in enumerate(prediction_set):
