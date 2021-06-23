@@ -71,10 +71,11 @@ for val in range(length):
     s,e = return_start_and_end(val)
     video_indexes.append(vals[s:e])
 
+#torch.Size([1, 2, 91, 1, 1])
 for indx, batch in enumerate(test_loader):
     batch = batch.type('torch.FloatTensor')
     predictions = model(batch)
-    print(predictions.cpu().detach().numpy()[0])
+    print(predictions.cpu().detach().numpy()[0][0])
     predictions = predictions.argmax(dim=1).cpu().detach().numpy()
     for idx, prediction_set in enumerate(predictions):
         for i, prediction in enumerate(prediction_set):
