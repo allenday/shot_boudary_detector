@@ -82,6 +82,7 @@ for indx, batch in enumerate(test_loader):
             if prediction[0][0] == 0:
                 frame_index = video_indexes[indx][i+5]
                 pred_file.write(str(frame_index) + '\t' + str(frame_index / vid.fps) + '\t' + str(frame_index) + '\n')
+                print(str(frame_index) + '\t' + str(frame_index / vid.fps) + '\t' + str(frame_index) + '\t' + str(predictions.cpu().detach().numpy()[0][0].flatten()) + '\n')
 
 pred_file.close()
 
